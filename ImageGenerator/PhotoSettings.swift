@@ -10,12 +10,14 @@ import Foundation
 import Combine
 import UIKit
 
+/// This class holds the necessary information to generate the image
 class PhotoSettings: ObservableObject {
     @Published var colors: [RGBA32] = []
     @Published var width = 1600.0
     @Published var height = 1900.0
 }
 
+/// 32 bit color (RGBA) for generating pixels from
 struct RGBA32: Equatable, Identifiable {
     var color: UInt32
     var id = UUID()

@@ -21,6 +21,7 @@ struct AddColorView: View {
         VStack {
             Circle()
                 .foregroundColor(Color.init(red: red/255.0, green: green/255.0, blue: blue/255.0))
+            
             HStack {
                 Slider(value: $red, in: 0...255)
                 .accentColor(.red)
@@ -39,6 +40,7 @@ struct AddColorView: View {
                 Text("\(Int(blue))")
                     .foregroundColor(.blue)
             }
+            
             Button("Add color") {
                 let color = RGBA32(red: UInt8(self.red), green: UInt8(self.green), blue: UInt8(self.blue), alpha: .max)
                 self.settings.colors.append(color)
@@ -65,11 +67,12 @@ struct InputView: View {
                     Button(action: {
                         self.showingAddColorView = true
                     }) {
-                        Image(systemName: "plus")
                         Text("Add color")
+                        Image(systemName: "plus.circle")
                     }
                 }
-                List() {
+                
+                List {
                     ForEach(photoSettings.colors) { color in
                         Color(red: Double(color.redComponent)/255.0,
                               green: Double(color.greenComponent)/255.0,
@@ -79,18 +82,18 @@ struct InputView: View {
                     }
                 }
                 
-                NavigationLink(destination: SwiftUIViewController(photoSettings: photoSettings)) {
+                NavigationLink(destination: SwiftUIViewController(photoSettings: photoSettings).navigationBarTitle("Image Generation")) {
                     if photoSettings.colors.isEmpty {
                         Text("Continue with random colors")
                     } else {
                         Text("Continue with custom colors")
                     }
-                }.font(.largeTitle)
+                }.font(.title)
             }.sheet(isPresented: $showingAddColorView) {
                 AddColorView(settings: self.photoSettings)
             }
-        }
             .navigationBarTitle("Choose Colors")
+        }
             .navigationViewStyle(StackNavigationViewStyle())
             .padding()
     }
